@@ -1,4 +1,5 @@
 import { Link, Route, Routes } from 'react-router-dom'
+import Editor from './pages/Editor'
 import Parser from './pages/Parser'
 
 function Home() {
@@ -18,9 +19,9 @@ function Home() {
           </Link>
           <Link
             to="/editor"
-            className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
-            编辑器 (开发中)
+            规则编辑器
           </Link>
         </div>
       </div>
@@ -33,6 +34,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/parser" element={<Parser />} />
+      <Route path="/editor" element={<Editor />} />
     </Routes>
   )
 }

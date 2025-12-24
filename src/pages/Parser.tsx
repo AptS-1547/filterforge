@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { parse, generate } from '../parser'
+import { type SieveScript, generate, parse } from '../parser'
+import ASTViewer from '../components/ASTViewer'
 
 const EXAMPLE_SCRIPT = `require ["fileinto", "variables"];
 
@@ -19,31 +20,75 @@ if address :matches "From" "*@example.com" {
 keep;
 `
 
+type ViewMode = 'tree' | 'json' | 'regenerate'
+
 export default function Parser() {
   const [input, setInput] = useState(EXAMPLE_SCRIPT)
-  const [output, setOutput] = useState('')
+  const [ast, setAst] = useState<SieveScript | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'ast' | 'regenerate'>('ast')
+  const [viewMode, setViewMode] = useState<ViewMode>('tree')
 
   const handleParse = () => {
     const result = parse(input)
     if (result.success) {
       setError(null)
-      if (activeTab === 'ast') {
-        setOutput(JSON.stringify(result.ast, null, 2))
-      } else {
-        setOutput(generate(result.ast))
-      }
+      setAst(result.ast)
     } else {
       setError(result.error.message)
-      setOutput('')
+      setAst(null)
+    }
+  }
+
+  const renderOutput = () => {
+    if (error) {
+      return (
+        <div className="h-96 p-3 bg-red-50 border border-red-200 rounded-md overflow-auto">
+          <p className="text-red-600 font-mono text-sm whitespace-pre-wrap">
+            {error}
+          </p>
+        </div>
+      )
+    }
+
+    if (!ast) {
+      return (
+        <div className="h-96 p-3 bg-gray-50 border border-gray-200 rounded-md flex items-center justify-center text-gray-400">
+          点击"解析"按钮查看结果
+        </div>
+      )
+    }
+
+    switch (viewMode) {
+      case 'tree':
+        return (
+          <div className="h-96 p-3 bg-white border border-gray-200 rounded-md overflow-auto">
+            <ASTViewer node={ast} />
+          </div>
+        )
+      case 'json':
+        return (
+          <pre className="h-96 p-3 bg-gray-50 border border-gray-200 rounded-md overflow-auto font-mono text-sm">
+            {JSON.stringify(ast, null, 2)}
+          </pre>
+        )
+      case 'regenerate':
+        return (
+          <pre className="h-96 p-3 bg-gray-50 border border-gray-200 rounded-md overflow-auto font-mono text-sm">
+            {generate(ast)}
+          </pre>
+        )
     }
   }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Sieve 解析器</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-gray-900">Sieve 解析器</h1>
+          <a href="/" className="text-blue-600 hover:text-blue-800">
+            ← 返回首页
+          </a>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* 输入区域 */}
@@ -72,43 +117,28 @@ export default function Parser() {
           <div className="bg-white rounded-lg shadow p-4">
             <div className="flex items-center gap-4 mb-3">
               <h2 className="text-lg font-semibold text-gray-700">输出</h2>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('ast')}
-                  className={`px-3 py-1 rounded-md text-sm ${
-                    activeTab === 'ast'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  AST
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('regenerate')}
-                  className={`px-3 py-1 rounded-md text-sm ${
-                    activeTab === 'regenerate'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  重新生成
-                </button>
+              <div className="flex gap-1">
+                {(['tree', 'json', 'regenerate'] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => setViewMode(mode)}
+                    className={`px-3 py-1 rounded-md text-sm transition-colors ${
+                      viewMode === mode
+                        ? 'bg-blue-100 text-blue-700'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {mode === 'tree'
+                      ? '树形'
+                      : mode === 'json'
+                        ? 'JSON'
+                        : '重新生成'}
+                  </button>
+                ))}
               </div>
             </div>
-
-            {error ? (
-              <div className="h-96 p-3 bg-red-50 border border-red-200 rounded-md overflow-auto">
-                <p className="text-red-600 font-mono text-sm whitespace-pre-wrap">
-                  {error}
-                </p>
-              </div>
-            ) : (
-              <pre className="h-96 p-3 bg-gray-50 border border-gray-200 rounded-md overflow-auto font-mono text-sm">
-                {output || '点击"解析"按钮查看结果'}
-              </pre>
-            )}
+            {renderOutput()}
           </div>
         </div>
 
