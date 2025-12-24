@@ -107,14 +107,14 @@ function generateCondition(
 
     case 'allof': {
       const subs = (condition.conditions || []).map((c) =>
-        generateCondition(c, indent + '    '),
+        generateCondition(c, `${indent}    `),
       )
       return `allof (\n${indent}    ${subs.join(`,\n${indent}    `)}\n${indent})`
     }
 
     case 'anyof': {
       const subs = (condition.conditions || []).map((c) =>
-        generateCondition(c, indent + '    '),
+        generateCondition(c, `${indent}    `),
       )
       return `anyof (\n${indent}    ${subs.join(`,\n${indent}    `)}\n${indent})`
     }
@@ -165,7 +165,7 @@ function generateAction(action: RuleAction): string {
       if (action.vacationSubject)
         cmd += ` :subject "${escapeString(action.vacationSubject)}"`
       cmd += ` "${escapeString(action.vacationMessage || '')}"`
-      return cmd + ';'
+      return `${cmd};`
     }
 
     case 'set':
@@ -219,5 +219,5 @@ export function convertToSieve(state: EditorState): string {
     lines.push('')
   }
 
-  return lines.join('\n').trim() + '\n'
+  return `${lines.join('\n').trim()}\n`
 }

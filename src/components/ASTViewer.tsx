@@ -121,12 +121,10 @@ function TreeNode({ node, depth = 0 }: ASTViewerProps) {
 
   return (
     <div className="font-mono text-sm">
-      <div
-        className={`flex items-center gap-2 py-1 px-2 rounded cursor-pointer hover:bg-gray-50 ${depth > 0 ? 'ml-4' : ''}`}
+      <button
+        type="button"
+        className={`flex items-center gap-2 py-1 px-2 rounded cursor-pointer hover:bg-gray-50 w-full text-left ${depth > 0 ? 'ml-4' : ''}`}
         onClick={() => setExpanded(!expanded)}
-        onKeyDown={(e) => e.key === 'Enter' && setExpanded(!expanded)}
-        role="button"
-        tabIndex={0}
       >
         {hasChildren && (
           <span className="w-4 text-gray-400">{expanded ? '▼' : '▶'}</span>
@@ -138,7 +136,7 @@ function TreeNode({ node, depth = 0 }: ASTViewerProps) {
           {node.type}
         </span>
         {nodeValue && <span className="text-gray-600">{nodeValue}</span>}
-      </div>
+      </button>
 
       {expanded && hasChildren && (
         <div className="border-l border-gray-200 ml-6">

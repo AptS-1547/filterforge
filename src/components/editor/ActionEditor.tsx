@@ -164,18 +164,20 @@ export default function ActionEditor({
       case 'vacation':
         return (
           <div className="space-y-2">
-            <div className="flex gap-2 items-center">
-              <label className="text-sm text-gray-600">间隔天数:</label>
+            <label className="flex gap-2 items-center text-sm text-gray-600">
+              间隔天数:
               <input
                 type="number"
                 value={action.vacationDays || 7}
                 onChange={(e) =>
-                  update({ vacationDays: Number.parseInt(e.target.value) || 7 })
+                  update({
+                    vacationDays: Number.parseInt(e.target.value, 10) || 7,
+                  })
                 }
                 min={1}
-                className="w-20 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="w-20 px-3 py-2 border border-gray-300 rounded-md"
               />
-            </div>
+            </label>
             <input
               type="text"
               value={action.vacationSubject || ''}

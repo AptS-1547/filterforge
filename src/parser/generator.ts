@@ -76,33 +76,33 @@ function generateCommand(
 
   switch (cmd.type) {
     case 'RequireCommand':
-      return indent + generateRequire(cmd)
+      return `${indent}${generateRequire(cmd)}`
     case 'IfCommand':
       return generateIf(cmd, depth, opts)
     case 'StopCommand':
-      return indent + 'stop;'
+      return `${indent}stop;`
     case 'KeepCommand':
-      return indent + generateKeep(cmd)
+      return `${indent}${generateKeep(cmd)}`
     case 'FileintoCommand':
-      return indent + generateFileinto(cmd)
+      return `${indent}${generateFileinto(cmd)}`
     case 'RedirectCommand':
-      return indent + generateRedirect(cmd)
+      return `${indent}${generateRedirect(cmd)}`
     case 'DiscardCommand':
-      return indent + 'discard;'
+      return `${indent}discard;`
     case 'RejectCommand':
-      return indent + generateReject(cmd)
+      return `${indent}${generateReject(cmd)}`
     case 'SetCommand':
-      return indent + generateSet(cmd)
+      return `${indent}${generateSet(cmd)}`
     case 'VacationCommand':
-      return indent + generateVacation(cmd)
+      return `${indent}${generateVacation(cmd)}`
     case 'FlagCommand':
-      return indent + generateFlag(cmd)
+      return `${indent}${generateFlag(cmd)}`
     case 'NotifyCommand':
-      return indent + generateNotify(cmd)
+      return `${indent}${generateNotify(cmd)}`
     case 'GenericCommand':
-      return indent + generateGenericCommand(cmd)
+      return `${indent}${generateGenericCommand(cmd)}`
     default:
-      return indent + '# Unknown command'
+      return `${indent}# Unknown command`
   }
 }
 
@@ -161,7 +161,7 @@ function generateKeep(cmd: KeepCommand): string {
   if (cmd.flags) {
     result += ` :flags ${generateStringList(cmd.flags)}`
   }
-  return result + ';'
+  return `${result};`
 }
 
 function generateFileinto(cmd: FileintoCommand): string {
@@ -170,14 +170,14 @@ function generateFileinto(cmd: FileintoCommand): string {
   if (cmd.create) result += ' :create'
   if (cmd.flags) result += ` :flags ${generateStringList(cmd.flags)}`
   result += ` ${generateString(cmd.mailbox)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateRedirect(cmd: RedirectCommand): string {
   let result = 'redirect'
   if (cmd.copy) result += ' :copy'
   result += ` ${generateString(cmd.address)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateReject(cmd: RejectCommand): string {
@@ -190,7 +190,7 @@ function generateSet(cmd: SetCommand): string {
     result += ` :${mod}`
   }
   result += ` ${generateString(cmd.name)} ${generateString(cmd.value)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateVacation(cmd: VacationCommand): string {
@@ -204,14 +204,14 @@ function generateVacation(cmd: VacationCommand): string {
   if (cmd.mime) result += ' :mime'
   if (cmd.handle) result += ` :handle ${generateString(cmd.handle)}`
   result += ` ${generateString(cmd.reason)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateFlag(cmd: FlagCommand): string {
   let result = cmd.action
   if (cmd.variablename) result += ` ${generateString(cmd.variablename)}`
   result += ` ${generateStringList(cmd.flags)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateNotify(cmd: NotifyCommand): string {
@@ -220,7 +220,7 @@ function generateNotify(cmd: NotifyCommand): string {
   if (cmd.importance) result += ` :importance "${cmd.importance}"`
   if (cmd.message) result += ` :message ${generateString(cmd.message)}`
   result += ` ${generateString(cmd.method)}`
-  return result + ';'
+  return `${result};`
 }
 
 function generateGenericCommand(cmd: GenericCommand): string {
@@ -236,7 +236,7 @@ function generateGenericCommand(cmd: GenericCommand): string {
       result += ` ${generateStringList(arg)}`
     }
   }
-  return result + ';'
+  return `${result};`
 }
 
 // ============ 测试生成 ============

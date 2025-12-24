@@ -175,7 +175,7 @@ export default function ConditionEditor({
               type="number"
               value={condition.sizeValue || 0}
               onChange={(e) =>
-                update({ sizeValue: Number.parseInt(e.target.value) || 0 })
+                update({ sizeValue: Number.parseInt(e.target.value, 10) || 0 })
               }
               className="w-24 px-3 py-2 border border-gray-300 rounded-md text-sm"
             />
