@@ -1,0 +1,45 @@
+{
+  "name": "filterforge",
+  "version": "1.0.0",
+  "description": "Sieve (RFC 5228/5229) 可视化解析与编辑器",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AptS-1547/filterforge.git"
+  },
+  "keywords": [
+    "sieve",
+    "email",
+    "filter",
+    "rfc5228",
+    "rfc5229"
+  ],
+  "author": "AptS:1547",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AptS-1547/filterforge/issues"
+  },
+  "homepage": "https://github.com/AptS-1547/filterforge#readme",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}
