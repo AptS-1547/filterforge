@@ -1,7 +1,7 @@
-import type { Rule } from './types'
-import { createDefaultAction } from './types'
 import ActionEditor from './ActionEditor'
 import ConditionEditor from './ConditionEditor'
+import type { Rule } from './types'
+import { createDefaultAction } from './types'
 
 interface RuleEditorProps {
   rule: Rule

@@ -2,7 +2,7 @@
  * 将编辑器状态转换为 Sieve 脚本
  */
 
-import type { EditorState, Rule, RuleCondition, RuleAction } from './types'
+import type { EditorState, Rule, RuleAction, RuleCondition } from './types'
 
 // 收集所需的扩展
 function collectRequires(state: EditorState): string[] {

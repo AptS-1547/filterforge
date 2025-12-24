@@ -3,7 +3,7 @@ import type { SieveScript } from './ast'
 import grammar from './sieve.pegjs?raw'
 
 export * from './ast'
-export { generate, type GeneratorOptions } from './generator'
+export { type GeneratorOptions, generate } from './generator'
 
 // 解析器实例 (懒加载)
 let parserInstance: peggy.Parser | null = null
